@@ -16,7 +16,7 @@ function SearchBar() {
 						type="text"
 						className="py-3 px-6 bg-gray-300 rounded-full w-[20rem] focus:outline"
 					/>
-					<button className="bg-purple-600/75 hover:bg-purple-700/75 px-5 py-1 rounded-full">
+					<button className="bg-purple-600/75 hover:bg-purple-700/75 px-5 py-1 rounded-full text-white">
 						Search
 					</button>
 				</form>

@@ -5,10 +5,11 @@ function Track({ track }) {
 
 	return (
 		<>
-			<div>
+			<div className="mt-3">
 				<h3>{name}</h3>
 				<p>
-					{artist} | {album}
+					<span className="text-purple-600/75">{artist}</span> |{" "}
+					<span>{album}</span>
 				</p>
 			</div>
 		</>

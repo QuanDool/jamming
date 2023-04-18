@@ -1,33 +1,13 @@
 import React from "react";
-import SearchResults from "./SearchResults";
-import Playlist from "./Playlist";
+import Track from "./Track";
 
-function Tracklist() {
-	const tracks = [
-		{
-			name: "Let Her Go",
-			artist: "Passenger",
-			album: "All the Little Lights",
-		},
-		{
-			name: "Hello",
-			artist: "Adele",
-			album: "25",
-		},
-		{
-			name: "Stay With Me",
-			artist: "Sam Smith",
-			album: "In The Lonely Hour",
-		},
-	];
-
+function Tracklist({ tracks }) {
 	return (
-		<>
-			<div className="flex flex-row flex-nowrap px-80 text-white justify-around">
-				<SearchResults tracks={tracks} />
-				<Playlist tracks={tracks.slice(1)} />
-			</div>
-		</>
+		<div className="divide-y">
+			{tracks.map((track, index) => (
+				<Track key={index} track={track} />
+			))}
+		</div>
 	);
 }
 
