@@ -13,7 +13,10 @@ function Track({ track, onToggle, onPlaylist }) {
 					<span className="text-purple-600/75">{track.artist}</span> |{" "}
 					<span>{track.album}</span>
 				</p>
-				<button onClick={toggleSave} className="absolute right-5 top-3">
+				<button
+					onClick={toggleSave}
+					className="absolute right-5 top-3 font-bold text-xl"
+				>
 					{onPlaylist ? "-" : "+"}
 				</button>
 			</div>

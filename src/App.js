@@ -37,13 +37,25 @@ function App() {
 		[playlistTracks]
 	);
 
+	const removeTrack = useCallback(
+		(track) => {
+			if (playlistTracks.some((savedTrack) => savedTrack.id === track.id)) {
+				setPlaylistTracks((prevPlaylistTracks) =>
+					prevPlaylistTracks.filter((prevTrack) => prevTrack.id !== track.id)
+				);
+			}
+			return;
+		},
+		[playlistTracks]
+	);
+
 	return (
 		<>
 			<NavBar />
 			<SearchBar />
 			<div className="flex flex-row flex-wrap gap-10 justify-center px-5 sm:px-39">
 				<SearchResults tracks={tracks} onAdd={addTrack} />
-				<Playlist tracks={playlistTracks} />
+				<Playlist tracks={playlistTracks} onRemove={removeTrack} />
 			</div>
 		</>
 	);
