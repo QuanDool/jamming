@@ -1,26 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchResults from "./SearchResults";
 import Playlist from "./Playlist";
 
 function Body() {
-	const tracks = [
-		{
-			name: "Let Her Go",
-			artist: "Passenger",
-			album: "All the Little Lights",
-		},
-		{
-			name: "Hello",
-			artist: "Adele",
-			album: "25",
-		},
-		{
-			name: "Stay With Me",
-			artist: "Sam Smith",
-			album: "In The Lonely Hour",
-		},
-	];
-
 	// const tokenEndpoint = "https://accounts.spotify.com/api/token";
 	// const client_id = "ccf705df96ea4898a52253a9a88ebb44";
 	// const client_secret = "0dc9e110c2b4443cbdff573c90843c01";
@@ -46,12 +28,10 @@ function Body() {
 	// };
 
 	// getAccessToken().then((token) => console.log(token));
-
 	return (
-		<div className="flex flex-row flex-wrap gap-10 justify-center px-5 sm:px-39">
-			<SearchResults tracks={tracks} />
-			<Playlist tracks={tracks.slice(1)} />
-		</div>
+		<>
+			<div>Body</div>
+		</>
 	);
 }
 
