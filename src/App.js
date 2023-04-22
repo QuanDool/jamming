@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import NavBar from "./components/NavBar";
 import Playlist from "./components/Playlist";
 import SearchBar from "./components/SearchBar";
@@ -27,6 +27,8 @@ function App() {
 	]);
 
 	const [playlistTracks, setPlaylistTracks] = useState([]);
+	const playlistNameRef = useRef(null);
+
 	const addTrack = useCallback(
 		(track) => {
 			if (playlistTracks.some((savedTrack) => savedTrack.id === track.id)) {
@@ -49,13 +51,22 @@ function App() {
 		[playlistTracks]
 	);
 
+	const savePlaylist = useCallback(function () {
+		console.log(playlistNameRef.current.value);
+	}, []);
+
 	return (
 		<>
 			<NavBar />
 			<SearchBar />
 			<div className="flex flex-row flex-wrap gap-10 justify-center px-5 sm:px-39">
 				<SearchResults tracks={tracks} onAdd={addTrack} />
-				<Playlist tracks={playlistTracks} onRemove={removeTrack} />
+				<Playlist
+					tracks={playlistTracks}
+					onRemove={removeTrack}
+					playlistNameInput={playlistNameRef}
+					onSave={savePlaylist}
+				/>
 			</div>
 		</>
 	);
