@@ -3,35 +3,28 @@ import NavBar from "./components/NavBar";
 import Playlist from "./components/Playlist";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
-import { useAccessToken } from "./api/Spotify";
+import { getTracks, useAccessToken } from "./api/Spotify";
 
 function App() {
-	const [tracks, setTracks] = useState([
-		{
-			id: 1,
-			name: "Let Her Go",
-			artist: "Passenger",
-			album: "All the Little Lights",
-		},
-		{
-			id: 2,
-			name: "Hello",
-			artist: "Adele",
-			album: "25",
-		},
-		{
-			id: 3,
-			name: "Stay With Me",
-			artist: "Sam Smith",
-			album: "In The Lonely Hour",
-		},
-	]);
-
 	const accessToken = useAccessToken();
-	console.log(accessToken);
 
 	const [playlistTracks, setPlaylistTracks] = useState([]);
 	const playlistNameRef = useRef(null);
+
+	const [tracks, setTracks] = useState([]);
+	useEffect(() => {
+		getTracks(accessToken, "You").then((items) => {
+			const searchTracks = items.map((item) => {
+				return {
+					id: item.id,
+					name: item.name,
+					artist: item.artists[0].name,
+					album: item.album.name,
+				};
+			});
+			setTracks(searchTracks);
+		});
+	}, [accessToken]);
 
 	const addTrack = useCallback(
 		(track) => {

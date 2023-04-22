@@ -19,7 +19,7 @@ async function getAccessToken() {
 		return data.access_token;
 	} catch (error) {
 		console.log(error);
-		return undefined;
+		return null;
 	}
 }
 
@@ -30,7 +30,27 @@ export const useAccessToken = () => {
 			.then((token) => {
 				setAccessToken(token);
 			})
-			.catch((error) => console.log(error));
+			.catch((error) => {
+				console.log(error);
+				return null;
+			});
 	}, []);
 	return accessToken;
 };
+
+export async function getTracks(accessToken, term) {
+	try {
+		const response = await fetch(
+			`https://api.spotify.com/v1/search?type=track&q=${term}`,
+			{
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			}
+		);
+		const jsonResponse = await response.json();
+		return jsonResponse.tracks.items;
+	} catch (error) {
+		console.log(error);
+	}
+}
