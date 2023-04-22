@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
 const client_id = "ccf705df96ea4898a52253a9a88ebb44";
@@ -38,10 +38,10 @@ export const useAccessToken = () => {
 	return accessToken;
 };
 
-export async function getTracks(accessToken, term) {
+export async function getTracks(accessToken, queryTerm) {
 	try {
 		const response = await fetch(
-			`https://api.spotify.com/v1/search?type=track&q=${term}`,
+			`https://api.spotify.com/v1/search?type=track&q=${queryTerm}`,
 			{
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
@@ -55,20 +55,25 @@ export async function getTracks(accessToken, term) {
 	}
 }
 
-export const useQueryTracks = (accessToken) => {
+export const useTracks = (accessToken) => {
 	const [tracks, setTracks] = useState([]);
-	useEffect(() => {
-		getTracks(accessToken, "You").then((items) => {
-			const searchTracks = items.map((item) => {
-				return {
-					id: item.id,
-					name: item.name,
-					artist: item.artists[0].name,
-					album: item.album.name,
-				};
-			});
-			setTracks(searchTracks);
-		});
-	}, [accessToken]);
-	return tracks;
+	const searchTracks = useCallback(
+		(queryTerm) => {
+			getTracks(accessToken, queryTerm)
+				.then((items) => {
+					const searchTracks = items.map((item) => {
+						return {
+							id: item.id,
+							name: item.name,
+							artist: item.artists[0].name,
+							album: item.album.name,
+						};
+					});
+					setTracks(searchTracks);
+				})
+				.catch((error) => console.log(error));
+		},
+		[accessToken]
+	);
+	return [tracks, searchTracks];
 };

@@ -3,15 +3,16 @@ import NavBar from "./components/NavBar";
 import Playlist from "./components/Playlist";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
-import { useAccessToken, useQueryTracks } from "./api/Spotify";
+import { useAccessToken, useTracks } from "./api/Spotify";
 
 function App() {
+	// Manage Results
 	const accessToken = useAccessToken();
+	const [tracks, searchTracks] = useTracks(accessToken);
 
+	// Manage Playlist Tracks
 	const [playlistTracks, setPlaylistTracks] = useState([]);
-	const playlistNameRef = useRef(null);
-
-	const tracks = useQueryTracks(accessToken);
+	const playlistNameInputRef = useRef(null);
 
 	const addTrack = useCallback(
 		(track) => {
@@ -36,19 +37,19 @@ function App() {
 	);
 
 	const savePlaylist = useCallback(function () {
-		console.log(playlistNameRef.current.value);
+		console.log(playlistNameInputRef.current.value);
 	}, []);
 
 	return (
 		<>
 			<NavBar />
-			<SearchBar />
+			<SearchBar searchTracks={searchTracks} />
 			<div className="flex flex-row flex-wrap gap-10 justify-center px-5 sm:px-39">
 				<SearchResults tracks={tracks} onAdd={addTrack} />
 				<Playlist
 					tracks={playlistTracks}
 					onRemove={removeTrack}
-					playlistNameInput={playlistNameRef}
+					playlistNameInput={playlistNameInputRef}
 					onSave={savePlaylist}
 				/>
 			</div>
