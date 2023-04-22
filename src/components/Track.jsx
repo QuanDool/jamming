@@ -8,9 +8,9 @@ function Track({ track, onToggle, onPlaylist }) {
 	return (
 		<>
 			<div className="mt-3 relative">
-				<h3>{track.name}</h3>
+				<h3 className="font-bold text-md">{track.name}</h3>
 				<p className="pr-10">
-					<span className="text-purple-600/75">{track.artist}</span> |{" "}
+					<span className="text-purple-400/75">{track.artist}</span> |{" "}
 					<span>{track.album}</span>
 				</p>
 				<button

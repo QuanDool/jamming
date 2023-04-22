@@ -3,7 +3,7 @@ import Track from "./Track";
 
 function Tracklist({ tracks, onToggle, onPlaylist }) {
 	return (
-		<div className="divide-y">
+		<div className="divide-y divide-dashed">
 			{tracks.map((track) => (
 				<Track
 					key={track.id}
