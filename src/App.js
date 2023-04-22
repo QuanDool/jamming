@@ -1,8 +1,9 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import NavBar from "./components/NavBar";
 import Playlist from "./components/Playlist";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
+import { useAccessToken } from "./api/Spotify";
 
 function App() {
 	const [tracks, setTracks] = useState([
@@ -25,6 +26,9 @@ function App() {
 			album: "In The Lonely Hour",
 		},
 	]);
+
+	const accessToken = useAccessToken();
+	console.log(accessToken);
 
 	const [playlistTracks, setPlaylistTracks] = useState([]);
 	const playlistNameRef = useRef(null);
