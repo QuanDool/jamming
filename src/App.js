@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import NavBar from "./components/NavBar";
 import Playlist from "./components/Playlist";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
-import { getTracks, useAccessToken } from "./api/Spotify";
+import { useAccessToken, useQueryTracks } from "./api/Spotify";
 
 function App() {
 	const accessToken = useAccessToken();
@@ -11,20 +11,7 @@ function App() {
 	const [playlistTracks, setPlaylistTracks] = useState([]);
 	const playlistNameRef = useRef(null);
 
-	const [tracks, setTracks] = useState([]);
-	useEffect(() => {
-		getTracks(accessToken, "You").then((items) => {
-			const searchTracks = items.map((item) => {
-				return {
-					id: item.id,
-					name: item.name,
-					artist: item.artists[0].name,
-					album: item.album.name,
-				};
-			});
-			setTracks(searchTracks);
-		});
-	}, [accessToken]);
+	const tracks = useQueryTracks(accessToken);
 
 	const addTrack = useCallback(
 		(track) => {

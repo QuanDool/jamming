@@ -54,3 +54,21 @@ export async function getTracks(accessToken, term) {
 		console.log(error);
 	}
 }
+
+export const useQueryTracks = (accessToken) => {
+	const [tracks, setTracks] = useState([]);
+	useEffect(() => {
+		getTracks(accessToken, "You").then((items) => {
+			const searchTracks = items.map((item) => {
+				return {
+					id: item.id,
+					name: item.name,
+					artist: item.artists[0].name,
+					album: item.album.name,
+				};
+			});
+			setTracks(searchTracks);
+		});
+	}, [accessToken]);
+	return tracks;
+};
