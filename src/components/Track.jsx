@@ -9,7 +9,7 @@ function Track({ track, onToggle, onPlaylist }) {
 		<>
 			<div className="mt-3 relative">
 				<h3 className="font-bold text-md">{track.name}</h3>
-				<p className="pr-10">
+				<p className="pr-[20%]">
 					<span className="text-purple-400/75">{track.artist}</span> |{" "}
 					<span>{track.album}</span>
 				</p>
