@@ -38,7 +38,7 @@ export const useAccessToken = () => {
 	return accessToken;
 };
 
-export async function getTracks(accessToken, queryTerm) {
+async function getTracks(accessToken, queryTerm) {
 	try {
 		const response = await fetch(
 			`https://api.spotify.com/v1/search?type=track&q=${queryTerm}`,
@@ -67,6 +67,7 @@ export const useTracks = (accessToken) => {
 							name: item.name,
 							artist: item.artists[0].name,
 							album: item.album.name,
+							uri: item.uri,
 						};
 					});
 					setTracks(searchTracks);
