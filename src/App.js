@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import NavBar from "./components/NavBar";
 import Playlist from "./components/Playlist";
 import SearchBar from "./components/SearchBar";
@@ -40,7 +40,6 @@ function App() {
 	const savePlaylist = useCallback(
 		async (playlistName) => {
 			const playlist = await createPlaylist(user.id, playlistName);
-			console.log(playlistName);
 			const trackURIs = playlistTracks.map((track) => track.uri);
 			addPlaylist(playlist.id, trackURIs);
 		},

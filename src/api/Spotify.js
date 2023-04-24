@@ -2,9 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 
 const authorizeEndpoint = "https://accounts.spotify.com/authorize?";
 const clientId = "ccf705df96ea4898a52253a9a88ebb44";
-// const clientSecret = "0dc9e110c2b4443cbdff573c90843c01";
 const redirectUri = "http://localhost:3000/";
-let accessToken;
+let accessToken = "";
+const headers = (accessToken) => {
+	return { Authorization: `Bearer ${accessToken}` };
+};
 
 function getAccessToken() {
 	if (accessToken) {
@@ -40,9 +42,7 @@ async function getTracks(queryTerm) {
 		const response = await fetch(
 			`https://api.spotify.com/v1/search?type=track&q=${queryTerm}`,
 			{
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
+				headers: headers(accessToken),
 			}
 		);
 		const jsonResponse = await response.json();
@@ -78,7 +78,7 @@ async function fetchUser() {
 	try {
 		const response = await fetch("https://api.spotify.com/v1/me", {
 			method: "GET",
-			headers: { Authorization: `Bearer ${accessToken}` },
+			headers: headers(accessToken),
 		});
 		return await response.json();
 	} catch (error) {
@@ -99,10 +99,9 @@ export const useUser = () => {
 export const createPlaylist = async (userId, playlistName) => {
 	const accessToken = getAccessToken();
 	const postEndpoint = `https://api.spotify.com/v1/users/${userId}/playlists`;
-	console.log(accessToken);
 	const response = await fetch(postEndpoint, {
 		method: "POST",
-		headers: { Authorization: `Bearer ${accessToken}` },
+		headers: headers(accessToken),
 		body: JSON.stringify({ name: playlistName }),
 	});
 	return await response.json();
@@ -114,7 +113,7 @@ export const addPlaylist = (playlistId, trackURIs) => {
 
 	fetch(postEndpoint, {
 		method: "POST",
-		headers: { Authorization: `Bearer ${accessToken}` },
+		headers: headers(accessToken),
 		body: JSON.stringify({
 			uris: trackURIs,
 		}),
