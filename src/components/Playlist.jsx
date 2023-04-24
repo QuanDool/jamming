@@ -3,7 +3,7 @@ import Tracklist from "./Tracklist";
 
 function Playlist({ tracks, onRemove, playlistNameInput, onSave }) {
 	const handleSaveButton = (event) => {
-		onSave();
+		onSave(playlistNameInput.current.value);
 	};
 
 	return (

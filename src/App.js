@@ -1,14 +1,16 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import NavBar from "./components/NavBar";
 import Playlist from "./components/Playlist";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
-import { useAccessToken, useTracks } from "./api/Spotify";
+import { createPlaylist, useTracks, useUser } from "./api/Spotify";
 
 function App() {
+	const user = useUser();
+	console.log(user);
+
 	// Manage Results
-	const accessToken = useAccessToken();
-	const [tracks, searchTracks] = useTracks(accessToken);
+	const [tracks, searchTracks] = useTracks();
 
 	// Manage Playlist Tracks
 	const [playlistTracks, setPlaylistTracks] = useState([]);
@@ -36,9 +38,13 @@ function App() {
 		[playlistTracks]
 	);
 
-	const savePlaylist = useCallback(function () {
-		console.log(playlistNameInputRef.current.value);
-	}, []);
+	const savePlaylist = useCallback(
+		(playlistName) => {
+			createPlaylist(user.id, playlistName);
+			console.log(playlistName);
+		},
+		[user]
+	);
 
 	return (
 		<>
