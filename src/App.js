@@ -3,11 +3,10 @@ import NavBar from "./components/NavBar";
 import Playlist from "./components/Playlist";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
-import { createPlaylist, useTracks, useUser } from "./api/Spotify";
+import { addPlaylist, createPlaylist, useTracks, useUser } from "./api/Spotify";
 
 function App() {
 	const user = useUser();
-	console.log(user);
 
 	// Manage Results
 	const [tracks, searchTracks] = useTracks();
@@ -39,11 +38,13 @@ function App() {
 	);
 
 	const savePlaylist = useCallback(
-		(playlistName) => {
-			createPlaylist(user.id, playlistName);
+		async (playlistName) => {
+			const playlist = await createPlaylist(user.id, playlistName);
 			console.log(playlistName);
+			const trackURIs = playlistTracks.map((track) => track.uri);
+			addPlaylist(playlist.id, trackURIs);
 		},
-		[user]
+		[user, playlistTracks]
 	);
 
 	return (

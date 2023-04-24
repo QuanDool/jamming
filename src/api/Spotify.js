@@ -96,13 +96,27 @@ export const useUser = () => {
 	return user;
 };
 
-export const createPlaylist = (userId, playlistName) => {
+export const createPlaylist = async (userId, playlistName) => {
 	const accessToken = getAccessToken();
 	const postEndpoint = `https://api.spotify.com/v1/users/${userId}/playlists`;
 	console.log(accessToken);
-	fetch(postEndpoint, {
+	const response = await fetch(postEndpoint, {
 		method: "POST",
 		headers: { Authorization: `Bearer ${accessToken}` },
 		body: JSON.stringify({ name: playlistName }),
+	});
+	return await response.json();
+};
+
+export const addPlaylist = (playlistId, trackURIs) => {
+	const accessToken = getAccessToken();
+	const postEndpoint = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+
+	fetch(postEndpoint, {
+		method: "POST",
+		headers: { Authorization: `Bearer ${accessToken}` },
+		body: JSON.stringify({
+			uris: trackURIs,
+		}),
 	});
 };
